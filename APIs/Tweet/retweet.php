@@ -1,0 +1,43 @@
+<?php
+
+
+header('Access-Control-Allow-Origin:*');
+header('Content-Type:application/json');
+header('Access-Control-Allow-Methods:POST');
+
+
+
+
+include_once '../../config/DB.php';
+include_once '../../Models/Tweet.php';
+
+include_once '../../Helpers/IsAuthinticated.php';
+
+isLoggedIn();
+
+
+
+
+if(!isset($_REQUEST['id'])){
+    echo('enter id');
+    die();
+}
+
+$database = new Database();
+
+$db = $database->connect();
+
+$tweet=new Tweet($db);
+
+$tweet=$tweet->retweet($_REQUEST['id']);
+
+if($tweet){
+    http_response_code(201);
+    echo 'retweeted';
+
+    
+    exit;
+}
+
+
+
